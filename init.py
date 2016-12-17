@@ -92,7 +92,8 @@ class ServiceRun():
       self.replace_all(ALFRESCO_PATH + '/tomcat/shared/classes/alfresco-global.properties', 'share.port\s*=.*', 'share.port=' + port)
       self.replace_all(ALFRESCO_PATH + '/tomcat/shared/classes/alfresco-global.properties', 'share.protocol\s*=.*', 'share.protocol=' + protocol)
 
-  def set_ftp(self, enable, port, port_start, port_end, debug):
+
+  def set_ftp(self, enable, port, port_start, port_end):
       global ALFRESCO_PATH
 
       if port is None or port == "":
@@ -103,10 +104,8 @@ class ServiceRun():
 
       self.replace_all(ALFRESCO_PATH + '/tomcat/shared/classes/alfresco-global.properties', 'ftp.enabled\s*=.*', 'ftp.enabled=' + enable)
       self.replace_all(ALFRESCO_PATH + '/tomcat/shared/classes/alfresco-global.properties', 'ftp.port\s*=.*', 'ftp.port=' + port)
-      # self.replace_all(ALFRESCO_PATH + '/tomcat/shared/classes/alfresco-global.properties', 'ftp.dataPortFrom\s*=.*', 'ftp.dataPortFrom=' + port_start)
-      # self.replace_all(ALFRESCO_PATH + '/tomcat/shared/classes/alfresco-global.properties', 'ftp.dataPortTo\s*=.*', 'ftp.dataPortTo=' + port_end)
-      # self.replace_all(ALFRESCO_PATH + '/tomcat/shared/classes/alfresco-global.properties', 'ftp.sessionDebug\s*=.*', 'ftp.sessionDebug=' + debug)
-      
+      self.replace_all(ALFRESCO_PATH + '/tomcat/shared/classes/alfresco-global.properties', 'ftp.dataPortFrom\s*=.*', 'ftp.dataPortFrom=' + port_start)
+      self.replace_all(ALFRESCO_PATH + '/tomcat/shared/classes/alfresco-global.properties', 'ftp.dataPortTo\s*=.*', 'ftp.dataPortTo=' + port_end)
 
   def set_core(self, environment):
       global ALFRESCO_PATH
@@ -524,7 +523,7 @@ if __name__ == '__main__':
     serviceRun.set_share_context(os.getenv('SHARE_HOSTNAME', '127.0.0.1'), os.getenv('SHARE_PORT', '8080'), os.getenv('SHARE_PROTOCOL', 'http'))
 
     # We set ftp
-    serviceRun.set_ftp(os.getenv('FTP_ENABLED', 'true'), os.getenv('FTP_PORT', '21'), os.getenv('FTP_PORT_FROM', 1024), os.getenv('FTP_PORT_TO',1099), os.getenv('FTP_DEBUG','false'))
+    serviceRun.set_ftp(os.getenv('FTP_ENABLED', 'true'), os.getenv('FTP_PORT', '21'), os.getenv('FTP_PORT_FROM', 1024), os.getenv('FTP_PORT_TO',1099))
 
     # We set environment
     serviceRun.set_core(os.getenv('ENVIRONMENT', 'PRODUCTION'))
